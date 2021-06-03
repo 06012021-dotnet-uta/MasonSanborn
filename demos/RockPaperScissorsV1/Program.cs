@@ -90,7 +90,7 @@ namespace RockPaperScissorsV1
 
         static void GameIntro() {
             Console.WriteLine("Welcome to Rock Paper Scissors Version 1!\n");
-            Console.WriteLine("This game is best two out of three");
+            //Console.WriteLine("This game is best two out of three");
             Console.WriteLine("To play this game you try to choose the object that beats your opponenets object:");
             Console.WriteLine("\t> Rock beats Scissors");
             Console.WriteLine("\t> Scissors beats Paper");
