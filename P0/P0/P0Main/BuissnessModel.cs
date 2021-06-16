@@ -28,12 +28,12 @@ namespace P0Main
             Console.WriteLine("\t1 : Log in");
             Console.WriteLine("\t2 : Create a new account");
             Console.WriteLine("\t3 : Search for a Customer");
-            //Console.WriteLine("\t4 : Display all order history of a customer by id");
+            Console.WriteLine("\t4 : Display all order history of store location");
             //Console.WriteLine("\t5 : Display all order history of store location");
-            Console.WriteLine("\t4 : Exit Program");
+            Console.WriteLine("\t5 : Exit Program");
 
             // Allow the user to either log in or register a new account.
-            int numChoices = 3;
+            int numChoices = 5;
             int userInput = user.getUserInputInt(1, numChoices);
             switch (userInput)
             {
@@ -47,6 +47,9 @@ namespace P0Main
                     SearchCustomer();
                     break;
                 case 4:
+                    DisplayLocationOrderHistory();
+                    break;
+                case 5:
                     Environment.Exit(0);
                     break;
             }
@@ -465,6 +468,7 @@ namespace P0Main
 
         public void SearchCustomer()
         {
+            // TODO add search protections to chosen user id to view order history
             Console.Clear();
             Console.WriteLine("Please Enter information about the user!");
             Console.WriteLine("\tLeave any unknown information blank!\n");
@@ -472,6 +476,7 @@ namespace P0Main
             string lName = string.Empty;
             string custId = string.Empty;
             int custIdInt = -1;
+            int custOrderSearchId;
 
             Console.WriteLine("Please Enter information about the user!");
 
@@ -504,6 +509,12 @@ namespace P0Main
                     {
                         Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
                     }
+                    if (user.getUserInputYN("Would you like to view the order history of a customer above? (y/n) "))
+                    {
+                        Console.Write("Please enter the Id: ");
+                        custOrderSearchId = user.getUserInputInt(0, 9999);
+                        DisplayCustomerOrderHistory(custOrderSearchId);
+                    }
                 }
             }
             else {
@@ -526,6 +537,12 @@ namespace P0Main
                         {
                             Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
                         }
+                        if (user.getUserInputYN("Would you like to view the order history of a customer above? (y/n) "))
+                        {
+                            Console.Write("Please enter the Id: ");
+                            custOrderSearchId = user.getUserInputInt(0, 9999);
+                            DisplayCustomerOrderHistory(custOrderSearchId);
+                        }
                     }
 
                 }
@@ -544,6 +561,12 @@ namespace P0Main
                         foreach (var obj in searchResult)
                         {
                             Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
+                        }
+                        if (user.getUserInputYN("Would you like to view the order history of a customer above? (y/n) "))
+                        {
+                            Console.Write("Please enter the Id: ");
+                            custOrderSearchId = user.getUserInputInt(0, 9999);
+                            DisplayCustomerOrderHistory(custOrderSearchId);
                         }
                     }
                 }
@@ -564,14 +587,17 @@ namespace P0Main
                             Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
                         }
                     }
+                    if (user.getUserInputYN("Would you like to view the order history of a customer above? (y/n) "))
+                    {
+                        Console.Write("Please enter the Id: ");
+                        custOrderSearchId = user.getUserInputInt(0, 9999);
+                        DisplayCustomerOrderHistory(custOrderSearchId);
+                    }
 
                 }
                 else
                 {
                     Console.WriteLine("Insufficient information to provide a result.");
-                    //Console.WriteLine("Press Enter to continue... ");
-                    //Console.ReadLine();
-                    //Startup();
                 }
             }
 
@@ -584,6 +610,63 @@ namespace P0Main
             Startup();
         }
 
+        public void DisplayCustomerOrderHistory(int custId)
+        {
+            Console.Clear();
+            var searchResult = context.Orders.Where(x => x.CustomerId == custId);
+            if(searchResult == null)
+            {
+                Console.WriteLine("This Customer has no order history!");
+            }
+            else
+            {
+                Console.WriteLine($"\t{"Order Id", -10} {"Customer Id", -12} {"Location Id", -16} {"Order Time"}\n");
+                foreach(var obj in searchResult)
+                {
+                    Console.WriteLine($"\t{obj.OrderId,-10} {obj.CustomerId,-12} {obj.LocationId,-16} {obj.OrderTime}");
+                }
+                Console.WriteLine();
+            }
+
+        }
+
+        public void DisplayLocationOrderHistory()
+        {
+            // TODO add user input protections for location id choosing
+            Console.Clear();
+            Console.WriteLine("Which Location would you like to view the order history of?\n");
+            Console.WriteLine($"\t{"Location Id",-14} {"Location Name",-18}\n");
+
+            foreach(var obj in context.Locations)
+            {
+                Console.WriteLine($"\t{obj.LocationId,-14} {obj.LocationName,-12}");
+            }
+
+            Console.Write("\n\tPlease enter the Id: ");
+            int locId = user.getUserInputInt(0, 9999);
+
+            Console.Clear();
+
+            var searchResult = context.Orders.Where(x => x.LocationId == locId);
+            if (searchResult == null)
+            {
+                Console.WriteLine("This Customer has no order history!");
+            }
+            else
+            {
+                Console.WriteLine($"\n\t{"Order Id",-10} {"Location Id",-12} {"Customer Id",-16} {"Order Time"}\n");
+                foreach (var obj in searchResult)
+                {
+                    Console.WriteLine($"\t{obj.OrderId,-10} {obj.LocationId,-12} {obj.CustomerId,-16} {obj.OrderTime}");
+                }
+                Console.WriteLine();
+            }
+
+            Console.WriteLine("Returning to main menu");
+            Console.WriteLine("Press Enter to continue... ");
+            Console.ReadLine();
+            Startup();
+        }
 
 
     }// end class
