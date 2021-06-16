@@ -24,9 +24,6 @@ namespace P0Main
             BuissnessModel currentProgram = new BuissnessModel(user, context);
 
 
-            //user.shoppingCart.Add();
-
-
             do
             {
                 Login:
