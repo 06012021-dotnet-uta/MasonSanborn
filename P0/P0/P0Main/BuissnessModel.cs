@@ -20,16 +20,36 @@ namespace P0Main
         }
         public void Startup()
         {
+
             // Greet the user and begin login process
+            Console.Clear();
             Console.WriteLine("Welcome To Mason Sanborn's Project 0!");
-            Console.WriteLine("To Begin please:\n\t1 : Log in\n\t2 : Create a new account\n\t3 : Exit Program");
+            Console.WriteLine("To Begin please:");
+            Console.WriteLine("\t1 : Log in");
+            Console.WriteLine("\t2 : Create a new account");
+            Console.WriteLine("\t3 : Search for a Customer");
+            //Console.WriteLine("\t4 : Display all order history of a customer by id");
+            //Console.WriteLine("\t5 : Display all order history of store location");
+            Console.WriteLine("\t4 : Exit Program");
 
             // Allow the user to either log in or register a new account.
-            int userInput = user.getUserInputInt(1, 3);
-            if (userInput == 1) Login();
-            else if (userInput == 2) Register();
-            else if (userInput == 3) Environment.Exit(0);
-
+            int numChoices = 3;
+            int userInput = user.getUserInputInt(1, numChoices);
+            switch (userInput)
+            {
+                case 1:
+                    Login();
+                    break;
+                case 2:
+                    Register();
+                    break;
+                case 3:
+                    SearchCustomer();
+                    break;
+                case 4:
+                    Environment.Exit(0);
+                    break;
+            }
             // After the user has successfully logged in startup is complete, continue to main program functionality
             
             return;
@@ -146,6 +166,8 @@ namespace P0Main
             Console.WriteLine("What would you like to do?");
             Console.WriteLine($"\t1 : Shop at {user.currentLocation.LocationName}");
             Console.WriteLine("\t2 : Change locations");
+            //Console.WriteLine($"\t3 : Display all order history of {user.currentLocation.LocationName}");
+            //Console.WriteLine("\t3 : Logout");
             Console.WriteLine("\t3 : Logout");
             // display all order history of customer
             // display order history of store?
@@ -258,6 +280,10 @@ namespace P0Main
             // else add product from productlist[input - 1]
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="categoryType">The type of category to browse by.</param>
         public void BrowseProducts(string categoryType)
         {
             Console.Clear();
@@ -436,6 +462,128 @@ namespace P0Main
                 Console.WriteLine("There was an issue adding the 'Ordered Product' to the database!");
             };
 }
+
+        public void SearchCustomer()
+        {
+            Console.Clear();
+            Console.WriteLine("Please Enter information about the user!");
+            Console.WriteLine("\tLeave any unknown information blank!\n");
+            string fName = string.Empty;
+            string lName = string.Empty;
+            string custId = string.Empty;
+            int custIdInt = -1;
+
+            Console.WriteLine("Please Enter information about the user!");
+
+            custId = user.getUserInputString("\tCustomer Id: ");
+
+            if (custId != string.Empty)
+            {
+                bool succesfulConversion = Int32.TryParse(custId, out custIdInt);
+
+                // checks to see that the user entered a number and that the number is in range
+                // if invalid input, succesfulConversion is false
+                if (succesfulConversion != true)
+                {
+                    Console.WriteLine("Invalid User Id");
+                    custIdInt = -1;
+                }
+            }
+            if (custIdInt != -1)
+            {
+                var searchResult = context.Customers.Where(x => x.CustomerId == custIdInt);
+                if (searchResult == null)
+                {
+                    Console.WriteLine("No results Found");
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{"Customer Id",-12} {"First Name",-12} {"Last Name",-15} {"UserName",-10}");
+                    foreach (var obj in searchResult)
+                    {
+                        Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
+                    }
+                }
+            }
+            else {
+                fName = user.getUserInputString("\tFirst Name: ");
+                lName = user.getUserInputString("\tLast Name: ");
+
+                if (fName != string.Empty && lName != string.Empty)
+                {
+                    // if there is a first and last name query both
+                    var searchResult = context.Customers.Where(x => x.FirstName == fName && x.LastName == lName);
+                    if(searchResult == null)
+                    {
+                        Console.WriteLine("No results Found");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"{"Customer Id", -12} {"First Name", -12} {"Last Name", -15} {"UserName", -10}");
+                        foreach(var obj in searchResult)
+                        {
+                            Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
+                        }
+                    }
+
+                }
+                else if (fName != string.Empty && lName == string.Empty)
+                {
+                    // if there is a first name but no last name
+                    var searchResult = context.Customers.Where(x => x.FirstName == fName);
+                    if (searchResult == null)
+                    {
+                        Console.WriteLine("No results Found");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"{"Customer Id",-12} {"First Name",-12} {"Last Name",-15} {"UserName",-10}");
+                        foreach (var obj in searchResult)
+                        {
+                            Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
+                        }
+                    }
+                }
+                else if (fName == string.Empty && lName != string.Empty)
+                {
+                    // if there is a last name but no first name
+                    var searchResult = context.Customers.Where(x => x.LastName == lName);
+                    if (searchResult == null)
+                    {
+                        Console.WriteLine("No results Found");
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"{"Customer Id",-12} {"First Name",-12} {"Last Name",-15} {"UserName",-10}");
+                        foreach (var obj in searchResult)
+                        {
+                            Console.WriteLine($"{obj.CustomerId,-12} {obj.FirstName,-12} {obj.LastName,-15} {obj.UserName,-10}");
+                        }
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Insufficient information to provide a result.");
+                    //Console.WriteLine("Press Enter to continue... ");
+                    //Console.ReadLine();
+                    //Startup();
+                }
+            }
+
+
+
+
+            Console.WriteLine("Returning to main menu");
+            Console.WriteLine("Press Enter to continue... ");
+            Console.ReadLine();
+            Startup();
+        }
+
 
 
     }// end class
