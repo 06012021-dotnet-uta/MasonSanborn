@@ -22,6 +22,9 @@ namespace RockPaperScissorsV1
             Scissors = 3    //equivalent to 3
         }
 
+        /// <summary>
+        /// Displays game rules to the user and gets input for the users player name
+        /// </summary>
         protected void GameSetup() 
         {
             /// Display game Startup information / rules
@@ -34,12 +37,21 @@ namespace RockPaperScissorsV1
             GetPlayerName();
         }
 
+        /// <summary>
+        /// Asks the user to input their name and assigns it to Player One
+        /// </summary>
         private void GetPlayerName() {
-            /// Asks the user to input their name and assigns it to Player One
+            
             Console.Write("Please enter your name: ");
             playerOne.Name = Console.ReadLine().Trim();
         }
 
+        /// <summary>
+        /// Plays a round of RPS
+        ///     > displays choices to the user
+        ///     > gets players choices
+        ///     > decides winner
+        /// </summary>
         private void PlayRound() 
         {
             bool succesfulConversion = false;
@@ -94,6 +106,10 @@ namespace RockPaperScissorsV1
             }
         }
 
+        /// <summary>
+        /// Gets user input to decide whether to play agian
+        /// </summary>
+        /// <returns>bool</returns>
         private bool CheckPlayAgain() 
         {
             do 
@@ -120,7 +136,10 @@ namespace RockPaperScissorsV1
             } while(true);
         }
 
-        private void runGame()
+        /// <summary>
+        /// Main game loop, continues running rounds while the user wants to continue playing
+        /// </summary>
+        private void RunGame()
         {
             do 
             {
@@ -128,11 +147,25 @@ namespace RockPaperScissorsV1
             } while (CheckPlayAgain());
         }
 
-        public void startGame()
+        /// <summary>
+        /// Runs setup functionality for the RPS game and begins game loop
+        /// </summary>
+        public void StartGame()
         {
             GameSetup();
-            runGame();
+            RunGame();
         }
+
+
+        private int privateMethodTest()
+        {
+            return 5;
+        }
+
+        //internal void testMethod()
+        //{
+
+        //}
 
     }
 }

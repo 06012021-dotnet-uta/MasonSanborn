@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, th, td {
+          border: 4px double;
+          border-collapse: collapse;
+          padding: 1px;
+        }
+        table{
+            padding: 4px;
+        }
+        .indent-1 {float: left;}
+        .block section {width: 30%; float: left; border: 2px double orange;}
+
+        </style>
+</head>
+<body>
+<section class = "block">
+    <section class = "sec2">
+    <img src="htmlLogo.png" alt = "HTML 5 logo" style="width: 30%;">
+    <br>
+    <br>
+    <strong style = "font-size: 30;">About</strong>
+    <br>
+    <br>
+    Some text about this website
+    <br>
+    <br>
+    <strong style = "font-size: 30;">Our Locations</strong>
+
+        <ul>
+            <li>USA</li>
+                <ul>
+                    <li><a href = "google.com">New York</a></li>
+                    <li><a href = "google.com">Columbus</a></li>
+                    <li><a href = "google.com">Austin</a></li>
+                    <li><a href = "google.com">Philly</a></li>
+                </ul>
+            <li>World</li>
+                <ul>
+                    <li><a href = "google.com">Ottawa</li>
+                    <li><a href = "google.com">Sydney</a></li>
+                </ul>
+        </ul>
+    <br>
+    <strong style = "font-size: 30;">Upcoming Classes</strong>
+    <br>
+    <br>
+
+    <table>
+        <tr">
+        <th>Location</th>
+        <th>Topic</th>
+        </tr>
+        <tr>
+        <td>New York</td>
+        <td>Javascript & jQuery</td>
+        </tr>
+        <tr>
+        <td>San Francisco</td>
+        <td>HTML & CSS</td>
+        </tr>
+    </table>
+    </section>
+
+    <section class = "sec1" style="width: 50%; float: right;">
+        <strong style = "font-size: 30;">Sign Up!</strong>
+        <br>
+        <label for="fname">Name:</label>
+        <input type="text" id="fname" name="fname"><br>
+        <label for="fname">Email:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+
+        <label for="fname">Experience:</label><br>
+        <input type="text" id="fname" name="fname" style="padding: 30px;"><br>
+        
+    </section>
+</section>
+
+</body>
+</html>

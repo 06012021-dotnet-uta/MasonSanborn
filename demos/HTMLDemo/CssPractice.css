@@ -1,0 +1,21 @@
+.cssdemo {
+    width: 150;
+    border-style: solid;
+    border-color: red;
+    border-width: 100px, 25px;
+}
+
+div {
+    background-color: #52f7f7;
+    width: 150;
+}
+
+.class1{
+    border: 15px dotted blue;
+    width: 100;
+}
+
+#id1{
+    color:aquamarine;
+    text-emphasis: inherit;
+}
