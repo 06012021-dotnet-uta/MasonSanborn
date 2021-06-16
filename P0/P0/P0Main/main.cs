@@ -44,23 +44,6 @@ namespace P0Main
                     {
                         case 1: // Shop
                             currentProgram.ShopAtLocation();
-                            // ViewController.Shopping();
-                            // show available products at current location
-                            // show categories then breakup into items?
-                            // offer recomendations to user?
-
-                            // - Allow user to choose from avialable products 
-                            // move through pages of products?
-
-                            // - store chosen products and quanitity in shopping cart
-
-
-                            // modify cart option?
-
-                            // allow to checkout
-
-                            // get sum of price and display to user
-                            // remove items from stores inventory after sold and update database
                             continue;
                         case 2: // Change Locations
                             currentProgram.ChooseLocation();
@@ -75,38 +58,6 @@ namespace P0Main
 
 
             } while (true);
-
-            #region
-            //foreach (var prod in context.Products)
-            //{
-            //    //var prodName  = prod.ProductName;
-            //    //var prodPrice = prod.Price;
-            //    Console.WriteLine($"Products: Name: {prod.ProductName}\t Price: {prod.Price}");
-            //}
-            #endregion
-            #region new customer example
-            ////var newCustomer = new Customer();       // create new object from database types
-
-            ////// set object attributes
-            ////newCustomer.FirstName = "Luke";
-            ////newCustomer.LastName = "Scott";
-            ////newCustomer.UserName = "sc98";
-            ////newCustomer.Password = "xx113";
-
-            ////context.Add(newCustomer);     // add the new object to the database
-
-            ////context.SaveChanges();      // save and update changes
-            #endregion
-            #region
-            //var results = context.Products.Where(x => x.ProductName == "Chicken");
-
-            //foreach (var result in results)
-            //{
-            //    //var prodName  = prod.ProductName;
-            //    //var prodPrice = prod.Price;
-            //    Console.WriteLine($"Products: Name: {result.ProductName}");
-            //}
-            #endregion
 
 
         }

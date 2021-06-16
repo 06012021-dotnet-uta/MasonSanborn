@@ -13,11 +13,21 @@ namespace P0Main
     {
         public CurrentUser user;
         public P0DbClass context;
+
+        /// <summary>
+        /// Buissness Model Constructor
+        /// </summary>
+        /// <param name="user">object for the current user class</param>
+        /// <param name="context">object for the database class</param>
         public BuissnessModel(CurrentUser user, P0DbClass context)
         {
             this.user = user;
             this.context = context;
         }
+
+        /// <summary>
+        /// Proviedes the Iinitial startup menu options and the switch case for them
+        /// </summary>
         public void Startup()
         {
 
@@ -29,7 +39,6 @@ namespace P0Main
             Console.WriteLine("\t2 : Create a new account");
             Console.WriteLine("\t3 : Search for a Customer");
             Console.WriteLine("\t4 : Display all order history of store location");
-            //Console.WriteLine("\t5 : Display all order history of store location");
             Console.WriteLine("\t5 : Exit Program");
 
             // Allow the user to either log in or register a new account.
@@ -59,6 +68,9 @@ namespace P0Main
 
         }
 
+        /// <summary>
+        /// User login fucntionality
+        /// </summary>
         private void Login()
         {
             while (true)
@@ -90,6 +102,9 @@ namespace P0Main
             }
         }
 
+        /// <summary>
+        /// Logic for registering a new user and adding them to the database
+        /// </summary>
         private void Register()
         {
             string regFName;
@@ -143,6 +158,9 @@ namespace P0Main
             Login();
         }
 
+        /// <summary>
+        /// Allows the user to choose a new current location
+        /// </summary>
         public void ChooseLocation()
         {
             Console.Clear();
@@ -162,6 +180,10 @@ namespace P0Main
             return;
         }
 
+        /// <summary>
+        /// display functions for main menu options that gets user input and returns the result
+        /// </summary>
+        /// <returns>int based on user choice</returns>
         public int MainMenuOptions()
         {
             int numOptions = 3;
@@ -182,6 +204,9 @@ namespace P0Main
 
         }
 
+        /// <summary>
+        /// Functionality menu to shop at a location
+        /// </summary>
         public void ShopAtLocation()
         {
             Console.WriteLine($"Welcome to {user.currentLocation.LocationName}!");
@@ -224,6 +249,10 @@ namespace P0Main
                 }
             }
         }
+
+        /// <summary>
+        /// Displays the users shopping cart to the user and allows modification of the cart
+        /// </summary>
         public void DisplayCart()
         {
             decimal sum = 0;
@@ -242,6 +271,10 @@ namespace P0Main
             Console.WriteLine("\n\nPress Enter to continue...");
             Console.ReadLine();
         }
+
+        /// <summary>
+        /// displays all the products for a store
+        /// </summary>
         public void BrowseProducts()
         {
             Console.Clear();
@@ -284,7 +317,7 @@ namespace P0Main
         }
 
         /// <summary>
-        /// 
+        /// displays the products for a store filtered by category
         /// </summary>
         /// <param name="categoryType">The type of category to browse by.</param>
         public void BrowseProducts(string categoryType)
@@ -324,6 +357,9 @@ namespace P0Main
             AddToCart(productList[userChoice - 1].ProductId, productList[userChoice - 1].ProductAmount);
         }
 
+        /// <summary>
+        /// Allows the user to choose a category to shop from then calls the browse products for that category
+        /// </summary>
         public void BrowseCategories()
         {
             Console.Clear();
@@ -353,6 +389,11 @@ namespace P0Main
             BrowseProducts(categoryType);
         }
 
+        /// <summary>
+        /// Functionality to add a product to the users shopping cart
+        /// </summary>
+        /// <param name="productId">Product to be added</param>
+        /// <param name="amountInStore">The number available in the store</param>
         public void AddToCart(int productId, int amountInStore)
         {
 
@@ -400,6 +441,9 @@ namespace P0Main
 
         }
 
+        /// <summary>
+        /// Functionality to purchase the items in cart and update the database records
+        /// </summary>
         public void checkoutCart()
         {
             // for each element in the shopping cart subrtract the number ordered for each productid from the context.inventory
@@ -464,8 +508,16 @@ namespace P0Main
             {
                 Console.WriteLine("There was an issue adding the 'Ordered Product' to the database!");
             };
-}
+            Console.WriteLine("\nYou have succesfully purchased your items!");
+            Console.WriteLine("Press Enter to continue... ");
+            Console.ReadLine();
 
+        }
+
+
+        /// <summary>
+        /// allows for searching by any combination of customer id / first name / last name
+        /// </summary>
         public void SearchCustomer()
         {
             // TODO add search protections to chosen user id to view order history
@@ -610,6 +662,10 @@ namespace P0Main
             Startup();
         }
 
+        /// <summary>
+        /// Displays the chosen customers order history
+        /// </summary>
+        /// <param name="custId">the id of the customer to display</param>
         public void DisplayCustomerOrderHistory(int custId)
         {
             Console.Clear();
@@ -627,9 +683,18 @@ namespace P0Main
                 }
                 Console.WriteLine();
             }
+            if (user.getUserInputYN("Would you like to view the order details of an order above? (y/n) "))
+            {
+                Console.Write("Please enter the Id: ");
+                int orderSearchId = user.getUserInputInt(0, 9999);
+                DisplayOrderDetails(orderSearchId);
+            }
 
         }
 
+        /// <summary>
+        /// Displays order history from any location the user chooses
+        /// </summary>
         public void DisplayLocationOrderHistory()
         {
             // TODO add user input protections for location id choosing
@@ -661,6 +726,61 @@ namespace P0Main
                 }
                 Console.WriteLine();
             }
+
+            if (user.getUserInputYN("Would you like to view the order details of an order above? (y/n) "))
+            {
+                Console.Write("Please enter the Id: ");
+                int orderSearchId = user.getUserInputInt(0, 9999);
+                DisplayOrderDetails(orderSearchId);
+            }
+
+            Console.WriteLine("Returning to main menu");
+            Console.WriteLine("Press Enter to continue... ");
+            Console.ReadLine();
+            Startup();
+        }
+
+        /// <summary>
+        /// Displays the information about an order based on order Id
+        /// </summary>
+        /// <param name="orderId">The id of the order to display</param>
+        public void DisplayOrderDetails(int orderId)
+        {
+            var joinResults = context.OrderedProducts.Join(
+                context.Products,
+                order => order.ProductId,
+                prod => prod.ProductId,
+                (order, prod) => new
+                {
+                    OrderId = order.OrderId,
+                    ProductName = prod.ProductName,
+                    NumOrdered = order.NumberOrdered,
+                    ProductPrice = prod.Price
+                }
+
+            );
+            var searchResult = joinResults.Where(x => x.OrderId == orderId);
+            var orderResult = context.Orders.Where(x => x.OrderId == orderId).FirstOrDefault();
+            var locationResult = context.Locations.Where(x => x.LocationId == orderResult.LocationId).FirstOrDefault();
+
+
+            Console.Clear();
+            Console.WriteLine($"\n\t\t{"Order Id:",-20} {orderId}");
+            Console.WriteLine($"\t\t{"Location Name:",-20} {locationResult.LocationName}");
+            Console.WriteLine($"\t\t{"Order Time:", -20} {orderResult.OrderTime}\n");
+            Console.WriteLine($"\t{"Product Name", -16} {"Num Ordered", -12} {"Price", -12}\n");
+            decimal sum = 0;
+            foreach (var obj in searchResult)
+            {
+                Console.WriteLine($"\t{obj.ProductName,-16} {obj.NumOrdered,-12} {(obj.ProductPrice * obj.NumOrdered),-12}");
+                sum += (obj.ProductPrice * obj.NumOrdered);
+            }
+            Console.Write($"\n\t\tTotal Price: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"${sum}\n\n\n");
+            Console.ForegroundColor = ConsoleColor.White;
+
+
 
             Console.WriteLine("Returning to main menu");
             Console.WriteLine("Press Enter to continue... ");
