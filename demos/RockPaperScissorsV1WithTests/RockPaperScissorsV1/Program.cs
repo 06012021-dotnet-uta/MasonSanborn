@@ -6,11 +6,17 @@ namespace RockPaperScissorsV1
     {
         static void Main(string[] args)
         {
+
+            int i = 9;
+            double x = i;
+            Console.WriteLine(x);
             // Create new Rock Paper Scissors game
             RpsGame currentGame = new RpsGame();
 
             // Start the RPS game
-            currentGame.startGame();
+            currentGame.StartGame();
+            //currentGame.testMethod
+
         }
 
     }
