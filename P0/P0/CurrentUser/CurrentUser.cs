@@ -11,6 +11,12 @@ namespace CurrentUserNamespace
         public Location currentLocation { get; set; }
         public Dictionary<Product, int> shoppingCart = new Dictionary<Product, int>(); 
 
+        /// <summary>
+        /// Gets a user int input between two values
+        /// </summary>
+        /// <param name="minVal">min expected value</param>
+        /// <param name="maxVal">max expected value</param>
+        /// <returns></returns>
         public int getUserInputInt(int minVal, int maxVal)
         {
             bool succesfulConversion = false;
@@ -37,6 +43,11 @@ namespace CurrentUserNamespace
             return intInput;
         }
 
+        /// <summary>
+        /// Gets a user input y/n and asks question to them until a valud result is given
+        /// </summary>
+        /// <param name="questionMessage">y/n question asked to user</param>
+        /// <returns></returns>
         public bool getUserInputYN(string questionMessage)
         {
             do
@@ -59,6 +70,11 @@ namespace CurrentUserNamespace
             } while (true);
         }
 
+        /// <summary>
+        /// Gets a valid user input string stripped of special characters
+        /// </summary>
+        /// <param name="displayMessage">prompt asked of user to type string for</param>
+        /// <returns></returns>
         public string getUserInputString(string displayMessage)
         {
             StringBuilder sb = new StringBuilder();
