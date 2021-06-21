@@ -23,9 +23,9 @@ class Result
 
     public static void staircase(int n)
     {
-        int stairCaseLength = n;
         for(int i = 1; i <= n; i++)
         {
+            int multipler = i;
             string outputChar = new string ('#', multipler);
             string outputCharSpacing = new string (' ', (n - multipler));
 
