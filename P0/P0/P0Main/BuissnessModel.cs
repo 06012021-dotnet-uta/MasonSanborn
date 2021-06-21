@@ -479,7 +479,7 @@ namespace P0Main
             };
             Console.WriteLine($"new order: time: {thisOrder.OrderTime}, customer id: {thisOrder.CustomerId}, location id {thisOrder.LocationId}");
             var newOrderId = context.Orders.Max(x => x.OrderId);
-            Console.WriteLine($"returned order id: {newOrderId}");
+            Console.WriteLine($"your order id: {newOrderId}");
 
             // Update the stores inventory in the databse 
             foreach (var item in user.shoppingCart)
@@ -511,9 +511,9 @@ namespace P0Main
             Console.WriteLine("\nYou have succesfully purchased your items!");
             Console.WriteLine("Press Enter to continue... ");
             Console.ReadLine();
+            Startup();
 
         }
-
 
         /// <summary>
         /// allows for searching by any combination of customer id / first name / last name
@@ -755,18 +755,20 @@ namespace P0Main
                     OrderId = order.OrderId,
                     ProductName = prod.ProductName,
                     NumOrdered = order.NumberOrdered,
-                    ProductPrice = prod.Price
+                    ProductPrice = prod.Price,
                 }
 
             );
             var searchResult = joinResults.Where(x => x.OrderId == orderId);
             var orderResult = context.Orders.Where(x => x.OrderId == orderId).FirstOrDefault();
             var locationResult = context.Locations.Where(x => x.LocationId == orderResult.LocationId).FirstOrDefault();
+            var customerResult = context.Customers.Where(x => x.CustomerId == orderResult.CustomerId).FirstOrDefault();
 
 
             Console.Clear();
             Console.WriteLine($"\n\t\t{"Order Id:",-20} {orderId}");
             Console.WriteLine($"\t\t{"Location Name:",-20} {locationResult.LocationName}");
+            Console.WriteLine($"\t\t{"Customer Name:",-20} {customerResult.FirstName} {customerResult.LastName}");
             Console.WriteLine($"\t\t{"Order Time:", -20} {orderResult.OrderTime}\n");
             Console.WriteLine($"\t{"Product Name", -16} {"Num Ordered", -12} {"Price", -12}\n");
             decimal sum = 0;
