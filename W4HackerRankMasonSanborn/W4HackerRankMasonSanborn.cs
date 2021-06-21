@@ -30,8 +30,7 @@ class Result
             string outputChar = new string ('#', multipler);
             string outputCharSpacing = new string (' ', (n - multipler));
 
-            Console.Write($"{outputCharSpacing}");
-            Console.WriteLine($"{outputChar}");
+            Console.WriteLine($"{outputCharSpacing}{outputChar}");
         }
     }
 
