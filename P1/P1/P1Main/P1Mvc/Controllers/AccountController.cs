@@ -13,7 +13,7 @@ namespace P1Mvc.Controllers
     {
 
         //injecting buissness model?
-        private IBusinessModel _BusinessModel;
+        public IBusinessModel _BusinessModel;
 
         public AccountController(IBusinessModel BusinessModel)
         {
@@ -39,23 +39,44 @@ namespace P1Mvc.Controllers
             bool loginStatus = _BusinessModel.Login(loginUser.UserName, loginUser.Password);
             if(loginStatus)
             {
-                return View(_BusinessModel.GetCurrentUser());
+                //return View(_BusinessModel.GetCurrentUser());
+                //Session["currentUser"] = _BusinessModel.GetCurrentUser();
+                var currentUser = _BusinessModel.GetCurrentUser();
+                ViewBag.currentUser = currentUser;
+                //HttpContext.Session.Set("currentUser", currentUser);
+                //TempData["AccountCurrentUser"] = currentUser;
+                return View(_BusinessModel.GetLocationsList());
                 
             }
             else
             {
                 return NotFound();
+                // handle this differntly?
             }
-            //if (ModelState.IsValid)
-            //{
-            //    using (P1DbClass context = new P1DbClass())
-            //    {
-            //        var obj = context.Customers.Where(x => x.Username.Equals(objUser.Username) && x.Password.Equals(objUser.Password)).FirstOrDefault();
-            //        return View(obj);
-            //    }
-            //}
-            //return NotFound();
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LocationSelected(int locationId) // need to do something with sessions here?
+        {
+            //Console.WriteLine(locationId);
+            var currentLoc = _BusinessModel.GetLocation(locationId);
+            ViewBag.currentLocation = currentLoc;
+            ViewBag.currentUser = _BusinessModel.GetCurrentUser();
+
+            //TempData["AccountCurrentUser"] = ViewBag.currentUser;
+            //TempData["AccountCurrentLocation"] = ViewBag.currentLocation;
+
+            //var test = _BusinessModel.GetCurrentUser();
+
+            //Console.WriteLine($"Current User: {currentLoc.LocationName} {currentLoc.LocationId}");
+            //Console.WriteLine($"Current User: {test.FirstName} {test.LastName}");
+
+            return RedirectToAction("HomePage", currentLoc);
+            //return RedirectToAction("HomePage", "Main");//, new { sendLocation = ViewBag.currentUser, sendUser = ViewBag.currentLocation});   // redirect to main controller home page
         }
         
+
     }
 }
