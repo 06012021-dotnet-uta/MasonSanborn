@@ -13,11 +13,11 @@ namespace P1Mvc.Controllers
     {
 
         //injecting buissness model?
-        private IBusinessModel BusinessModel;
+        private IBusinessModel _BusinessModel;
 
         public AccountController(IBusinessModel BusinessModel)
         {
-            this.BusinessModel = BusinessModel;
+            this._BusinessModel = BusinessModel;
         }
 
         public IActionResult Index()
@@ -30,21 +30,32 @@ namespace P1Mvc.Controllers
             return View();
         }
 
-        /*
+
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(Customer loginUser) // need to do something with sessions here?
+        public ActionResult LoginLandingPage(Customer loginUser) // need to do something with sessions here?
         {
-            if (ModelState.IsValid)
+            bool loginStatus = _BusinessModel.Login(loginUser.UserName, loginUser.Password);
+            if(loginStatus)
             {
-                using (P1DbClass context = new P1DbClass())
-                {
-                    var obj = context.Customers.Where(x => x.Username.Equals(objUser.Username) && x.Password.Equals(objUser.Password)).FirstOrDefault();
-                    return View(obj);
-                }
+                return View(_BusinessModel.GetCurrentUser());
+                
             }
-            return NotFound();
+            else
+            {
+                return NotFound();
+            }
+            //if (ModelState.IsValid)
+            //{
+            //    using (P1DbClass context = new P1DbClass())
+            //    {
+            //        var obj = context.Customers.Where(x => x.Username.Equals(objUser.Username) && x.Password.Equals(objUser.Password)).FirstOrDefault();
+            //        return View(obj);
+            //    }
+            //}
+            //return NotFound();
         }
-        */
+        
     }
 }

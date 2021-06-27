@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using P1DbContext.Models;
+
 
 namespace BusinessLayer
 {
@@ -10,5 +12,6 @@ namespace BusinessLayer
     {
 
         public bool Login(string inputUsername, string inputPassword);
+        public Customer GetCurrentUser();
     }
 }

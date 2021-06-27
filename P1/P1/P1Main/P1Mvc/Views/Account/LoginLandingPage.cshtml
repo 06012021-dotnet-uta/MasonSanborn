@@ -1,0 +1,16 @@
+﻿@model P1DbContext.Models.Customer
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="text-lg-left">
+    <h1 class="display-4">Hello @Html.DisplayFor(model => model.FirstName)!</h1>
+    <br />
+    <h2>Which location would you like to shop at today?</h2>
+    <p>
+        @Html.DisplayFor(model => model.FirstName)
+        @Html.DisplayFor(model => model.LastName)
+        @Html.DisplayFor(model => model.CustomerId)
+    </p>
+</div>

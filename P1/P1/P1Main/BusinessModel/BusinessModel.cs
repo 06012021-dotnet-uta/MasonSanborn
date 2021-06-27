@@ -7,6 +7,16 @@ namespace BusinessLayer
 {
     public class BusinessModel : IBusinessModel
     {
+        private Customer currentUser;// { get; set; }// = new Customer();
+        private Location currentLocation;// { get; set; }// = new Location();
+
+        public P1DbClass context;
+
+        public BusinessModel(P1DbClass context)
+        {
+            this.context = context;
+        }
+
         public bool Login(string inputUsername, string inputPassword)
         {
 
@@ -23,8 +33,14 @@ namespace BusinessLayer
             }
             else
             {
+                currentUser = loginUser;
                 return true;
             }
+        }
+
+        public Customer GetCurrentUser()
+        {
+            return currentUser;
         }
 
     }
