@@ -26,12 +26,12 @@ VALUES
 	((SELECT OrderId FROM Orders WHERE OrderId = 3), (SELECT ProductId FROM Products WHERE ProductId = 2), 1);
 		
 
-
-SELECT * FROM Customers
-SELECT * FROM Inventory
-SELECT * FROM Locations
 SELECT * FROM OrderedProducts
 SELECT * FROM Orders
+SELECT * FROM Customers
+
+SELECT * FROM Inventory
+SELECT * FROM Locations
 SELECT * FROM Products
 
 
