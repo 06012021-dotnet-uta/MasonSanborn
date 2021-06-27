@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using P1DbContext.Models;
 using Microsoft.EntityFrameworkCore;
-//using BusinessLayer;
+using BusinessLayer;
 
 namespace P1Mvc
 {
@@ -34,7 +34,7 @@ namespace P1Mvc
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
                 }
             });
-            //services.AddScoped<IBusinessModel, BusinessModel>();
+            services.AddScoped<IBusinessModel, BusinessModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

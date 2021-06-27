@@ -5,20 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using P1DbContext.Models;
 using P1Mvc.Models;
-//using BusinessLayer;
+using BusinessLayer;
 
 namespace P1Mvc.Controllers
 {
     public class AccountController : Controller
     {
 
-        // injecting buissness model?
-        //private IBusinessModel BusinessModel;
+        //injecting buissness model?
+        private IBusinessModel BusinessModel;
 
-        //public AccountController(IBusinessModel BusinessModel)
-        //{
-        //    this.BusinessModel = BusinessModel;
-        //}
+        public AccountController(IBusinessModel BusinessModel)
+        {
+            this.BusinessModel = BusinessModel;
+        }
 
         public IActionResult Index()
         {
