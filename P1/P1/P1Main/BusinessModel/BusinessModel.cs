@@ -1,7 +1,7 @@
 ﻿using System;
 using P1DbContext.Models;
 using System.Linq;
-
+using System.Collections.Generic;
 
 namespace BusinessLayer
 {
@@ -41,6 +41,19 @@ namespace BusinessLayer
         public Customer GetCurrentUser()
         {
             return currentUser;
+        }
+
+        public List<Location> GetLocationsList()
+        {
+            var locList = context.Locations.ToList();
+            return locList;
+        }
+
+
+        public Location GetLocation(int locationId)
+        {
+            currentLocation = context.Locations.Where(x => x.LocationId == locationId).FirstOrDefault();
+            return currentLocation;
         }
 
     }

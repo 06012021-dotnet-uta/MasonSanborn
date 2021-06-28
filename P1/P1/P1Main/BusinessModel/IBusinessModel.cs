@@ -13,5 +13,8 @@ namespace BusinessLayer
 
         public bool Login(string inputUsername, string inputPassword);
         public Customer GetCurrentUser();
+        public List<Location> GetLocationsList();
+
+        public Location GetLocation(int locationId);
     }
 }

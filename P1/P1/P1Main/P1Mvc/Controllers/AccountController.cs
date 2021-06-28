@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using P1DbContext.Models;
 using P1Mvc.Models;
 using BusinessLayer;
+// added to add sessions
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace P1Mvc.Controllers
 {
@@ -13,7 +16,7 @@ namespace P1Mvc.Controllers
     {
 
         //injecting buissness model?
-        private IBusinessModel _BusinessModel;
+        public IBusinessModel _BusinessModel;
 
         public AccountController(IBusinessModel BusinessModel)
         {
@@ -34,28 +37,41 @@ namespace P1Mvc.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LoginLandingPage(Customer loginUser) // need to do something with sessions here?
+        public ActionResult LoginLandingPage(Customer loginUser)
         {
             bool loginStatus = _BusinessModel.Login(loginUser.UserName, loginUser.Password);
             if(loginStatus)
             {
-                return View(_BusinessModel.GetCurrentUser());
+
+                var currentUser = _BusinessModel.GetCurrentUser();
+                ViewBag.currentUser = currentUser;
+                // set the value into a session key
+                HttpContext.Session.SetString("CurrentSessionUser", JsonConvert.SerializeObject(currentUser));
+
+                return View(_BusinessModel.GetLocationsList());
                 
             }
             else
             {
                 return NotFound();
+                // handle this differntly?
             }
-            //if (ModelState.IsValid)
-            //{
-            //    using (P1DbClass context = new P1DbClass())
-            //    {
-            //        var obj = context.Customers.Where(x => x.Username.Equals(objUser.Username) && x.Password.Equals(objUser.Password)).FirstOrDefault();
-            //        return View(obj);
-            //    }
-            //}
-            //return NotFound();
+
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LocationSelected(int? storeLocationId) // need to do something with sessions here?
+        {
+
+            Location currentLoc = _BusinessModel.GetLocation((int)storeLocationId);
+
+
+            HttpContext.Session.SetString("CurrentSessionLocation", JsonConvert.SerializeObject(currentLoc));
+
+            return RedirectToAction("HomePage", "Main");
+        }
+
+
     }
 }
