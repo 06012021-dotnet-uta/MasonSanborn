@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using P1DbContext.Models;
 using P1Mvc.Models;
 using BusinessLayer;
+// added to add sessions
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace P1Mvc.Controllers
 {
@@ -34,17 +37,17 @@ namespace P1Mvc.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LoginLandingPage(Customer loginUser) // need to do something with sessions here?
+        public ActionResult LoginLandingPage(Customer loginUser)
         {
             bool loginStatus = _BusinessModel.Login(loginUser.UserName, loginUser.Password);
             if(loginStatus)
             {
-                //return View(_BusinessModel.GetCurrentUser());
-                //Session["currentUser"] = _BusinessModel.GetCurrentUser();
+
                 var currentUser = _BusinessModel.GetCurrentUser();
                 ViewBag.currentUser = currentUser;
-                //HttpContext.Session.Set("currentUser", currentUser);
-                //TempData["AccountCurrentUser"] = currentUser;
+                // set the value into a session key
+                HttpContext.Session.SetString("CurrentSessionUser", JsonConvert.SerializeObject(currentUser));
+
                 return View(_BusinessModel.GetLocationsList());
                 
             }
@@ -58,25 +61,17 @@ namespace P1Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LocationSelected(int locationId) // need to do something with sessions here?
+        public ActionResult LocationSelected(int? storeLocationId) // need to do something with sessions here?
         {
-            //Console.WriteLine(locationId);
-            var currentLoc = _BusinessModel.GetLocation(locationId);
-            ViewBag.currentLocation = currentLoc;
-            ViewBag.currentUser = _BusinessModel.GetCurrentUser();
 
-            //TempData["AccountCurrentUser"] = ViewBag.currentUser;
-            //TempData["AccountCurrentLocation"] = ViewBag.currentLocation;
+            Location currentLoc = _BusinessModel.GetLocation((int)storeLocationId);
 
-            //var test = _BusinessModel.GetCurrentUser();
 
-            //Console.WriteLine($"Current User: {currentLoc.LocationName} {currentLoc.LocationId}");
-            //Console.WriteLine($"Current User: {test.FirstName} {test.LastName}");
+            HttpContext.Session.SetString("CurrentSessionLocation", JsonConvert.SerializeObject(currentLoc));
 
-            return RedirectToAction("HomePage", currentLoc);
-            //return RedirectToAction("HomePage", "Main");//, new { sendLocation = ViewBag.currentUser, sendUser = ViewBag.currentLocation});   // redirect to main controller home page
+            return RedirectToAction("HomePage", "Main");
         }
-        
+
 
     }
 }

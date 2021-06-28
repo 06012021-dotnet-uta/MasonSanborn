@@ -35,6 +35,11 @@ namespace P1Mvc
                 }
             });
             services.AddScoped<IBusinessModel, BusinessModel>();
+            // added to add sessions
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +57,9 @@ namespace P1Mvc
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // added to add sessions
+            app.UseSession();
 
             app.UseRouting();
 

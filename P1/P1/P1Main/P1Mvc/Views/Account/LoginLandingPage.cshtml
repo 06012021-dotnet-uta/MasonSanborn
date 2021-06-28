@@ -11,16 +11,16 @@
     <h2>Which location would you like to shop at today?</h2>
 
     <form asp-action="LocationSelected">
-        <div class="form-group">
-            <select name="stores" id="storeLocation">
-                @foreach (var obj in Model)
-                {
-                    <option value="@obj.LocationId">@obj.LocationName</option>
-                }
-            </select>
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Select" class="btn btn-primary" />
-        </div>
+        <label for="stores">Choose a store </label>
+        <select name="storeLocationId" id="storeLocationId">
+            @foreach (var obj in Model)
+            {
+                <option value="@obj.LocationId">@obj.LocationName</option>
+            }
+        </select>
+
+        <input type="submit" asp-controller="Account" asp-action="LocationSelected" value ="Shop Here" />
+        <!--type = button type, controller = controller to go to, action = the view method to run, value = the button text-->
+
     </form>
 </div>

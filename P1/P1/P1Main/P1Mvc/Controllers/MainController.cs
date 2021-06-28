@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using BusinessLayer;
 using P1DbContext.Models;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace P1Mvc.Controllers
 {
@@ -20,30 +22,17 @@ namespace P1Mvc.Controllers
         }
 
 
-        public IActionResult HomePage(/*Location sendLocation, Customer sendUser*/)
+        public IActionResult HomePage()
         {
-            ViewBag.currentLocation = TempData["AccountCurrentLocation"];
-            ViewBag.currentUser = TempData["AccountCurrentUser"];
-
-            //ViewBag.currentLocation = TempData.ContainsKey("AccountCurrentLocation");
-            //ViewBag.currentUser = TempData.ContainsKey("AccountCurrentUser");
-
-            //ViewBag.currentLocation = TempData.First();
-            //ViewBag.currentUser = TempData.Last();
-
-            //ViewBag.currentLocation = sendLocation;
-            //ViewBag.currentUser = sendUser;
 
 
-            if (ViewBag.currentUser == null)
-            {
-                Customer currentUser = new Customer();
-                currentUser.FirstName = "ree";
-                currentUser.LastName = "reeeeee";
+            Location userLocation = JsonConvert.DeserializeObject<Location>(HttpContext.Session.GetString("CurrentSessionLocation"));
+            Customer userCustomer = JsonConvert.DeserializeObject<Customer>(HttpContext.Session.GetString("CurrentSessionUser"));
+
+            ViewBag.currentLocation = userLocation;
+            ViewBag.currentUser = userCustomer;
 
 
-                ViewBag.currentUser = currentUser;
-            }
 
             return View();
         }
