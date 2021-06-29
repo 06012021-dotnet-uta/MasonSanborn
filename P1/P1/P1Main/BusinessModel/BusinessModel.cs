@@ -43,18 +43,44 @@ namespace BusinessLayer
             return currentUser;
         }
 
+        public Location GetLocation(int locationId)
+        {
+            currentLocation = context.Locations.Where(x => x.LocationId == locationId).FirstOrDefault();
+            return currentLocation;
+        }
+
         public List<Location> GetLocationsList()
         {
             var locList = context.Locations.ToList();
             return locList;
         }
 
-
-        public Location GetLocation(int locationId)
+        public List<InventoryProduct> GetLocationProductList(int locationId)
         {
-            currentLocation = context.Locations.Where(x => x.LocationId == locationId).FirstOrDefault();
-            return currentLocation;
+            //var prodList = context.Products.ToList();
+
+
+            var joinResults = context.Inventories.Join(
+                context.Products,
+                invent => invent.ProductId,
+                prod => prod.ProductId,
+                (invent, prod) => new InventoryProduct(
+                    prod.ProductId,
+                    prod.ProductName,
+                    prod.Price,
+                    prod.Description,
+                    prod.Category,
+                    invent.LocationId,
+                    invent.NumberProducts)
+            ).AsEnumerable();
+
+            List<InventoryProduct> productList = joinResults.Where(x => x.LocationId == locationId).ToList();
+
+            return productList;
         }
+
+
+
 
     }
 }
