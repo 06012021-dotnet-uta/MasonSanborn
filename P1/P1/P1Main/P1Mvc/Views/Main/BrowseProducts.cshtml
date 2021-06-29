@@ -18,7 +18,7 @@
         {
     <tr>
         <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
-        <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductId="@obj.ProductId">@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
+        <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductString=@Newtonsoft.Json.JsonConvert.SerializeObject(obj)>@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
         <td>@Html.DisplayFor(modelItem => obj.Price)</td>
 
     </tr>
