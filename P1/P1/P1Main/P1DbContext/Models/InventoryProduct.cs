@@ -6,6 +6,11 @@ namespace P1DbContext.Models
 {
     public class InventoryProduct
     {
+        public InventoryProduct()
+        {
+
+        }
+
         public InventoryProduct(int ProductId, string ProductName, decimal Price, string Description, string Category, int LocationId, int NumberProducts)
         {
             this.ProductId      = ProductId;

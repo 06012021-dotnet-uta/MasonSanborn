@@ -16,14 +16,18 @@
 
         @foreach (P1DbContext.Models.InventoryProduct obj in Model)
         {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
-        <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductId="@obj.ProductId">@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
-        <td>@Html.DisplayFor(modelItem => obj.Price)</td>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
+                <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductString=@Newtonsoft.Json.JsonConvert.SerializeObject(obj)>@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
+                <td>@Html.DisplayFor(modelItem => obj.Price)</td>
 
-    </tr>
+            </tr>
         }
 
     </table>
+
+    <br />
+    <br />
+    <button class="btn-light"><a class="btn" asp-area="" asp-controller="Main" asp-action="ShopMenu">Return to Shop Menu</a></button>
 
 </div>

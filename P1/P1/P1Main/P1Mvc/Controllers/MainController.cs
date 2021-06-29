@@ -64,9 +64,21 @@ namespace P1Mvc.Controllers
             return View(_BusinessModel.GetLocationProductList(userLocation.LocationId));
         }
 
-        public ActionResult Details(int? selectedProductId)
+
+        public ActionResult Details(string selectedProductString)
         {
-            return View((int)selectedProductId);
+            InventoryProduct selectedProduct = JsonConvert.DeserializeObject<InventoryProduct>(selectedProductString);
+
+            ViewBag.selectedProduct = selectedProduct;
+            return View();
+        }
+
+        public ActionResult AddToCart(int? productId, int? quantity)
+        {
+
+            ViewBag.productId = (int)productId;
+            ViewBag.numadded = (int)quantity;
+            return View();
         }
 
         //public ActionResult DisplayCart()
