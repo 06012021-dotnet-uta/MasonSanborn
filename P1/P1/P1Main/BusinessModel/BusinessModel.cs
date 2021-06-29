@@ -21,10 +21,10 @@ namespace BusinessLayer
         {
 
             Customer loginUser;
-            using (P1DbClass context = new P1DbClass())
-            {
-                loginUser = context.Customers.Where(x => x.UserName == inputUsername && x.Password == inputPassword).FirstOrDefault();
-            }
+            //using (P1DbClass context = new P1DbClass())
+            //{
+            loginUser = context.Customers.Where(x => x.UserName == inputUsername && x.Password == inputPassword).FirstOrDefault();
+            //}
 
 
             if (loginUser == null)
