@@ -89,14 +89,28 @@ namespace P1Mvc.Controllers
 
             Dictionary<Product, int> newCart = _BusinessModel.ConvertDict(userCart);
 
+            ViewBag.orderTotal = _BusinessModel.GetCartTotal(newCart);
+
             return View(newCart);
         }
 
-        //public ActionResult Checkout()
-        //{
-        //    return View();
-        //}
+        public ActionResult Checkout()
+        {
+            Dictionary<int, int> userCart = JsonConvert.DeserializeObject<Dictionary<int, int>>(HttpContext.Session.GetString("CurrentSessionUserCart"));
 
+            Dictionary<Product, int> newCart = _BusinessModel.ConvertDict(userCart);
+
+            ViewBag.orderTotal = _BusinessModel.GetCartTotal(newCart);
+
+            return View(newCart);
+        }
+
+        public ActionResult ProcessCheckout()
+        {
+            // handle checkout logic
+            // add order to Db
+            return RedirectToAction("Index", "Home");
+        }
 
     } // End Class
 } // End Name

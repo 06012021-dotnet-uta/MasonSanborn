@@ -10,7 +10,7 @@
             <h2>@ViewBag.selectedProduct.ProductName : $@ViewBag.selectedProduct.Price</h2>
             <p>@ViewBag.selectedProduct.Description</p>
             <form asp-action="AddToCart">
-                <input type="hidden" id="productId" name="productId" value=@ViewBag.selectedProduct.ProductId >
+                <input type="hidden" id="productId" name="productId" value=@ViewBag.selectedProduct.ProductId>
                 <input type="number" id="quantity" name="quantity" min="0" max="@ViewBag.selectedProduct.NumberProducts"> <!--add max val-->
                 <input type="submit" value="Add to Cart">
 
@@ -22,6 +22,9 @@
     <br />
     <br />
     <button class="btn-light"><a class="btn" asp-area="" asp-controller="Main" asp-action="BrowseProducts">Return to Products List</a></button>
+    <br />
+    <br />
+    <button class="btn-light"><a class="btn" asp-area="" asp-controller="Main" asp-action="DisplayCart">View Cart</a></button>
 </body>
 
 

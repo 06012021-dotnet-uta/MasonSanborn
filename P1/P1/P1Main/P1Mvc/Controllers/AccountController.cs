@@ -76,6 +76,23 @@ namespace P1Mvc.Controllers
         }
 
 
+        public ActionResult CreateAccount() // need to do something with sessions here?
+        {
+
+            return View();
+        }
+
+        public ActionResult CreateAccountLanding(Customer newUser) // need to do something with sessions here?
+        {
+
+            _BusinessModel.CreateAccount(newUser);
+
+
+
+            return RedirectToAction("LoginPage", "Account");
+        }
+
+
 
     }
 }
