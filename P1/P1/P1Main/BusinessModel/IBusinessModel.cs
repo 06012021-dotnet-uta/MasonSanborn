@@ -18,6 +18,8 @@ namespace BusinessLayer
 
         public List<InventoryProduct> GetLocationProductList(int locationId);
 
+        public Dictionary<int, int> AddToCart(Dictionary<int, int> userCart, int productId, int numAdded);
 
+        public Dictionary<Product, int> ConvertDict(Dictionary<int, int> userCart);
     }
 }

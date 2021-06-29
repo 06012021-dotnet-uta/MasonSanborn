@@ -45,8 +45,11 @@ namespace P1Mvc.Controllers
 
                 var currentUser = _BusinessModel.GetCurrentUser();
                 ViewBag.currentUser = currentUser;
+                Dictionary<int, int> userCart = new Dictionary<int, int>();
                 // set the value into a session key
                 HttpContext.Session.SetString("CurrentSessionUser", JsonConvert.SerializeObject(currentUser));
+                HttpContext.Session.SetString("CurrentSessionUserCart", JsonConvert.SerializeObject(userCart));
+
 
                 return View(_BusinessModel.GetLocationsList());
                 
