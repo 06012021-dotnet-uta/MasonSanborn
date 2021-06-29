@@ -1,0 +1,29 @@
+﻿@model List<P1DbContext.Models.InventoryProduct>
+
+@{
+    ViewData["Title"] = "Browse Products";
+}
+
+<div class="text-lg-left">
+
+    <table id="storeProducts">
+        <tr>
+            <th>Id</th>
+            <th>Product</th>
+            <th>Price</th>
+
+        </tr>
+
+        @foreach (P1DbContext.Models.InventoryProduct obj in Model)
+        {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
+        <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductId="@obj.ProductId">@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
+        <td>@Html.DisplayFor(modelItem => obj.Price)</td>
+
+    </tr>
+        }
+
+    </table>
+
+</div>

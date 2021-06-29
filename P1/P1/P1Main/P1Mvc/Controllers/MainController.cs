@@ -55,12 +55,29 @@ namespace P1Mvc.Controllers
 
         public ActionResult ChangeLocations()
         {
-
             return View(_BusinessModel.GetLocationsList());
-
         }
 
+        public ActionResult BrowseProducts()                // add category filtering
+        {
+            Location userLocation = JsonConvert.DeserializeObject<Location>(HttpContext.Session.GetString("CurrentSessionLocation"));
+            return View(_BusinessModel.GetLocationProductList(userLocation.LocationId));
+        }
 
+        public ActionResult Details(int? selectedProductId)
+        {
+            return View((int)selectedProductId);
+        }
+
+        //public ActionResult DisplayCart()
+        //{
+        //    return View();
+        //}
+
+        //public ActionResult Checkout()
+        //{
+        //    return View();
+        //}
 
 
     } // End Class
