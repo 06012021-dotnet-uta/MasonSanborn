@@ -73,6 +73,14 @@ namespace P1Mvc.Controllers
             return View();
         }
 
+        public ActionResult AddToCart(int? productId, int? quantity)
+        {
+
+            ViewBag.productId = (int)productId;
+            ViewBag.numadded = (int)quantity;
+            return View();
+        }
+
         //public ActionResult DisplayCart()
         //{
         //    return View();
