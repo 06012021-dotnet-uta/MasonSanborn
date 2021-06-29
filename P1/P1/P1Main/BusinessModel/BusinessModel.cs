@@ -38,6 +38,13 @@ namespace BusinessLayer
             }
         }
 
+        public void CreateAccount(Customer newUser)
+        {
+            context.Add(newUser);     // add the new object to the database
+
+            context.SaveChanges();      // save and update changes
+        }
+
         public Customer GetCurrentUser()
         {
             return currentUser;
@@ -79,8 +86,53 @@ namespace BusinessLayer
             return productList;
         }
 
+        public Dictionary<int, int> AddToCart(Dictionary<int, int> userCart, int productId, int numAdded)
+        {
+            
+
+            if (numAdded == 0) return userCart;
+
+            if (userCart.ContainsKey(productId))
+            {
+                userCart[productId] += numAdded;
+            }
+            else
+            {
+                userCart.Add(productId, numAdded);
+            }
 
 
+            return userCart;
+
+        }
+
+
+        public Dictionary<Product, int> ConvertDict(Dictionary<int, int> userCart)
+        {
+            Dictionary<Product, int> newCart = new Dictionary<Product, int>();
+
+            foreach(var item in userCart)
+            {
+                Product getItem = context.Products.Where(x => x.ProductId == item.Key).FirstOrDefault();
+
+                newCart.Add(getItem, item.Value);
+            }
+
+            return newCart;
+
+        }
+
+        public decimal GetCartTotal(Dictionary<Product, int> cart)
+        {
+            decimal sum = 0;
+
+            foreach (var obj in cart)
+            {
+                sum += (obj.Key.Price * obj.Value);
+            }
+
+            return sum;
+        }
 
     }
 }

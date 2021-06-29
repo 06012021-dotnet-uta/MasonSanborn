@@ -11,17 +11,19 @@
             <th>Id</th>
             <th>Product</th>
             <th>Price</th>
+            <th>Quantity Available</th>
 
         </tr>
 
         @foreach (P1DbContext.Models.InventoryProduct obj in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
-                <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductString=@Newtonsoft.Json.JsonConvert.SerializeObject(obj)>@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
-                <td>@Html.DisplayFor(modelItem => obj.Price)</td>
+    <tr>
+        <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
+        <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductString=@Newtonsoft.Json.JsonConvert.SerializeObject(obj)>@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
+        <td>@Html.DisplayFor(modelItem => obj.Price)</td>
+        <td>@Html.DisplayFor(modelItem => obj.NumberProducts)</td>
 
-            </tr>
+    </tr>
         }
 
     </table>
@@ -29,5 +31,7 @@
     <br />
     <br />
     <button class="btn-light"><a class="btn" asp-area="" asp-controller="Main" asp-action="ShopMenu">Return to Shop Menu</a></button>
-
+    <br />
+    <br />
+    <button class="btn-light"><a class="btn" asp-area="" asp-controller="Main" asp-action="DisplayCart">View Cart</a></button>
 </div>

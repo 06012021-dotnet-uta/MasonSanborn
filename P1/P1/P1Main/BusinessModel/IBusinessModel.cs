@@ -12,12 +12,18 @@ namespace BusinessLayer
     {
 
         public bool Login(string inputUsername, string inputPassword);
+
+        public void CreateAccount(Customer newUser);
         public Customer GetCurrentUser();
         public Location GetLocation(int locationId);
         public List<Location> GetLocationsList();
 
         public List<InventoryProduct> GetLocationProductList(int locationId);
 
+        public Dictionary<int, int> AddToCart(Dictionary<int, int> userCart, int productId, int numAdded);
 
+        public Dictionary<Product, int> ConvertDict(Dictionary<int, int> userCart);
+
+        public decimal GetCartTotal(Dictionary<Product, int> cart);
     }
 }
