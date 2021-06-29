@@ -134,5 +134,53 @@ namespace BusinessLayer
             return sum;
         }
 
+
+        public Order Checkout(Dictionary<Product, int> cart, int customerId, int locationId)
+        {
+            Order thisOrder = new Order();
+            thisOrder.OrderTime = DateTime.Now;
+            thisOrder.CustomerId = customerId;
+            thisOrder.LocationId = locationId;
+
+            try
+            {
+                // Add the new order object to the Database
+                context.Add(thisOrder);
+                context.SaveChanges();
+            }
+            catch{};
+
+
+            int newOrderId = context.Orders.Max(x => x.OrderId);
+            Order newOrder = context.Orders.Where(x => x.OrderId == newOrderId).FirstOrDefault();
+
+
+            foreach (var item in cart)
+            {
+                foreach (var obj in context.Inventories)
+                {
+                    if (obj.LocationId == locationId && obj.ProductId == item.Key.ProductId)
+                    {
+                        obj.NumberProducts -= item.Value;
+                    }
+                }
+                // Add an ordered product object for each product in the shopping cart
+                var newOrderedProduct = new OrderedProduct();
+                newOrderedProduct.OrderId = newOrder.OrderId;
+                newOrderedProduct.ProductId = item.Key.ProductId;
+                newOrderedProduct.NumberOrdered = item.Value;
+                context.Add(newOrderedProduct);
+            }
+            // Save Database Changes and clear user's shopping cart
+            try
+            {
+                context.SaveChanges();
+            }
+            catch {};
+
+            return newOrder;
+        }
+
+        
     }
 }

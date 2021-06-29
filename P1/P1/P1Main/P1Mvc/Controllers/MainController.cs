@@ -122,9 +122,26 @@ namespace P1Mvc.Controllers
 
         public ActionResult ProcessCheckout()
         {
-            // handle checkout logic
-            // add order to Db
-            return RedirectToAction("Index", "Home");
+            Location userLocation           = JsonConvert.DeserializeObject<Location>(HttpContext.Session.GetString("CurrentSessionLocation"));
+            Customer userCustomer           = JsonConvert.DeserializeObject<Customer>(HttpContext.Session.GetString("CurrentSessionUser"));
+            Dictionary<int, int> userCart   = JsonConvert.DeserializeObject<Dictionary<int, int>>(HttpContext.Session.GetString("CurrentSessionUserCart"));
+
+            Dictionary<Product, int> newCart = _BusinessModel.ConvertDict(userCart);
+
+            Order thisOrder = _BusinessModel.Checkout(newCart, userCustomer.CustomerId, userLocation.LocationId);
+            ViewBag.thisOrder = thisOrder;
+
+            // Empty the now checked out cart
+            userCart = new Dictionary<int, int>();
+            Customer currentUser = new Customer();
+            Location currentLoc = new Location();
+
+            HttpContext.Session.SetString("CurrentSessionUserCart", JsonConvert.SerializeObject(userCart));
+            HttpContext.Session.SetString("CurrentSessionUser", JsonConvert.SerializeObject(currentUser));
+            HttpContext.Session.SetString("CurrentSessionLocation", JsonConvert.SerializeObject(currentLoc));
+
+
+            return View();
         }
 
     } // End Class

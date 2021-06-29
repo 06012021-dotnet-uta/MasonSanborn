@@ -25,5 +25,7 @@ namespace BusinessLayer
         public Dictionary<Product, int> ConvertDict(Dictionary<int, int> userCart);
 
         public decimal GetCartTotal(Dictionary<Product, int> cart);
+
+        public Order Checkout(Dictionary<Product, int> cart, int customerId, int locationId);
     }
 }
