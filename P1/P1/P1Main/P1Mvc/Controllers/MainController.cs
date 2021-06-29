@@ -32,15 +32,36 @@ namespace P1Mvc.Controllers
             ViewBag.currentLocation = userLocation;
             ViewBag.currentUser = userCustomer;
 
-
+            // Set to empty cart here?
 
             return View();
+        }
+
+        public IActionResult ShopMenu()
+        {
+
+            return View();
+        }
+
+        
+
+        public IActionResult ReturnHome()
+        {
+
+            // Empty Shopping Cart              TODO
+            return RedirectToAction("HomePage");
+        }
+
+
+        public ActionResult ChangeLocations()
+        {
+
+            return View(_BusinessModel.GetLocationsList());
+
         }
 
 
 
 
-
-
-    }
-}
+    } // End Class
+} // End Name
