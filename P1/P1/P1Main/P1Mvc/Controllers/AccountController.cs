@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using P1DbContext.Models;
 using P1Mvc.Models;
 using BusinessLayer;
-// added to add sessions
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
@@ -15,7 +14,6 @@ namespace P1Mvc.Controllers
     public class AccountController : Controller
     {
 
-        //injecting buissness model?
         public IBusinessModel _BusinessModel;
 
         public AccountController(IBusinessModel BusinessModel)
@@ -64,7 +62,7 @@ namespace P1Mvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LocationSelected(int? storeLocationId) // need to do something with sessions here?
+        public ActionResult LocationSelected(int? storeLocationId)
         {
 
             Location currentLoc = _BusinessModel.GetLocation((int)storeLocationId);
@@ -76,13 +74,13 @@ namespace P1Mvc.Controllers
         }
 
 
-        public ActionResult CreateAccount() // need to do something with sessions here?
+        public ActionResult CreateAccount()
         {
 
             return View();
         }
 
-        public ActionResult CreateAccountLanding(Customer newUser) // need to do something with sessions here?
+        public ActionResult CreateAccountLanding(Customer newUser)
         {
 
             _BusinessModel.CreateAccount(newUser);

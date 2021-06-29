@@ -55,6 +55,9 @@ namespace P1Mvc.Controllers
 
         public ActionResult ChangeLocations()
         {
+            Dictionary<int, int> userCart = new Dictionary<int, int>();
+            // set the value into a session key
+            HttpContext.Session.SetString("CurrentSessionUserCart", JsonConvert.SerializeObject(userCart));
             return View(_BusinessModel.GetLocationsList());
         }
 
@@ -68,8 +71,20 @@ namespace P1Mvc.Controllers
         public ActionResult Details(string selectedProductString)
         {
             InventoryProduct selectedProduct = JsonConvert.DeserializeObject<InventoryProduct>(selectedProductString);
+            Dictionary<int, int> userCart = JsonConvert.DeserializeObject<Dictionary<int, int>>(HttpContext.Session.GetString("CurrentSessionUserCart"));
+
+
+            int numInCart = 0;
+            if (userCart.ContainsKey(selectedProduct.ProductId))
+            {
+                numInCart = userCart[selectedProduct.ProductId];
+            }
+
 
             ViewBag.selectedProduct = selectedProduct;
+            ViewBag.maxAmount = selectedProduct.NumberProducts - numInCart;
+            ViewBag.numInCart = numInCart;
+
             return View();
         }
 
