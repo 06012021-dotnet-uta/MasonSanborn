@@ -12,15 +12,12 @@ namespace P1Mvc.Controllers
 {
     public class MainController : Controller
     {
-
-        //injecting buissness model?
         public IBusinessModel _BusinessModel;
 
         public MainController(IBusinessModel BusinessModel)
         {
             this._BusinessModel = BusinessModel;
         }
-
 
         public IActionResult HomePage()
         {
@@ -32,7 +29,6 @@ namespace P1Mvc.Controllers
             ViewBag.currentLocation = userLocation;
             ViewBag.currentUser = userCustomer;
 
-            // Set to empty cart here?
 
             return View();
         }
@@ -43,25 +39,19 @@ namespace P1Mvc.Controllers
             return View();
         }
 
-        
-
         public IActionResult ReturnHome()
         {
-
-            // Empty Shopping Cart              TODO
             return RedirectToAction("HomePage");
         }
-
 
         public ActionResult ChangeLocations()
         {
             Dictionary<int, int> userCart = new Dictionary<int, int>();
-            // set the value into a session key
             HttpContext.Session.SetString("CurrentSessionUserCart", JsonConvert.SerializeObject(userCart));
             return View(_BusinessModel.GetLocationsList());
         }
 
-        public ActionResult BrowseProducts(string storeCategoryName = "any")                // add category filtering
+        public ActionResult BrowseProducts(string storeCategoryName = "any")              
         {
             Location userLocation = JsonConvert.DeserializeObject<Location>(HttpContext.Session.GetString("CurrentSessionLocation"));
 
@@ -76,15 +66,12 @@ namespace P1Mvc.Controllers
                 productList = _BusinessModel.GetLocationProductList(userLocation.LocationId, storeCategoryName);
             }
             
-
-
             List<string> categoryList = _BusinessModel.GetCategoryList(userLocation.LocationId);
 
             ViewBag.categoryList = categoryList;
 
             return View(productList);
         }
-
 
         public ActionResult Details(string selectedProductString)
         {
@@ -97,7 +84,6 @@ namespace P1Mvc.Controllers
             {
                 numInCart = userCart[selectedProduct.ProductId];
             }
-
 
             ViewBag.selectedProduct = selectedProduct;
             ViewBag.maxAmount = selectedProduct.NumberProducts - numInCart;
@@ -157,7 +143,6 @@ namespace P1Mvc.Controllers
             HttpContext.Session.SetString("CurrentSessionUserCart", JsonConvert.SerializeObject(userCart));
             HttpContext.Session.SetString("CurrentSessionUser", JsonConvert.SerializeObject(currentUser));
             HttpContext.Session.SetString("CurrentSessionLocation", JsonConvert.SerializeObject(currentLoc));
-
 
             return View();
         }

@@ -47,8 +47,6 @@ namespace P1Mvc.Controllers
 
             if(lName == null) lName = string.Empty;
 
-
-
             List<Customer> customerList = _BusinessModel.GetCustomerList(fName, lName);
 
             return View(customerList);
@@ -68,7 +66,6 @@ namespace P1Mvc.Controllers
             List<OrderedProduct> orderedProductList = _BusinessModel.GetOrderedProductList(selectedOrderId);
 
             Dictionary<int, int> orderedProductInfo = new Dictionary<int, int>();
-            decimal sum = 0;
             
             foreach(var obj in orderedProductList)
             {
@@ -77,12 +74,7 @@ namespace P1Mvc.Controllers
 
             Dictionary<Product, int> newCart = _BusinessModel.ConvertDict(orderedProductInfo);
 
-            foreach(var obj in newCart)
-            {
-                sum += (obj.Key.Price * obj.Value);
-            }
-
-            ViewBag.orderTotal = sum;
+            ViewBag.orderTotal = _BusinessModel.GetCartTotal(newCart);
             return View(newCart);
         }
 
