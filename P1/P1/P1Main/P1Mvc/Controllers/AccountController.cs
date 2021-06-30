@@ -21,10 +21,6 @@ namespace P1Mvc.Controllers
             this._BusinessModel = BusinessModel;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public IActionResult LoginPage()
         {
@@ -54,7 +50,7 @@ namespace P1Mvc.Controllers
             }
             else
             {
-                return NotFound();
+                return RedirectToAction("LoginFailPage", "Account");
                 // handle this differntly?
             }
 
@@ -91,6 +87,10 @@ namespace P1Mvc.Controllers
         }
 
 
+        public ActionResult LoginFailPage()
+        {
 
+            return View();
+        }
     }
 }

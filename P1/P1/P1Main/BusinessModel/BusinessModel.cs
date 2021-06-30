@@ -62,6 +62,41 @@ namespace BusinessLayer
             return locList;
         }
 
+        public List<Order> GetOrderList()
+        {
+            var orderList = context.Orders.ToList();
+            return orderList;
+        }
+
+        public List<Order> GetOrderList(int locationId)
+        {
+            var orderList = context.Orders.Where(x => x.LocationId == locationId).ToList();
+            return orderList;
+        }
+
+        public List<Order> GetCustomerOrderList(int customerId)
+        {
+            var orderList = context.Orders.Where(x => x.CustomerId == customerId).ToList();
+            return orderList;
+        }
+
+
+        public List<Customer> GetCustomerList(string fName = "", string lName = "")
+        {
+            var customerList = context.Customers.Where(x => x.FirstName.Contains(fName) && x.LastName.Contains(lName)).ToList();
+
+            return customerList;
+        }
+
+        
+        public List<OrderedProduct> GetOrderedProductList(int selectedOrderId)
+        {
+            var orderedProductList = context.OrderedProducts.Where(x => x.OrderId == selectedOrderId).ToList();
+
+            return orderedProductList;
+        }
+
+
         public List<string> GetCategoryList(int locationId)
         {
             var joinResults = context.Inventories.Join(
@@ -132,6 +167,12 @@ namespace BusinessLayer
             List<InventoryProduct> productList = joinResults.Where(x => x.LocationId == locationId && x.Category == GetLocationProductList).ToList();
 
             return productList;
+        }
+
+        public Order GetOrderDetails(int selectedOrderId)
+        {
+            var order = context.Orders.Where(x => x.OrderId == selectedOrderId).FirstOrDefault();
+            return order;
         }
 
 
