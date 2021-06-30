@@ -13,13 +13,13 @@ namespace BusinessLayer
 
         public bool Login(string inputUsername, string inputPassword);
 
-        public void CreateAccount(Customer newUser);
+        public bool CreateAccount(Customer newUser);
         public Customer GetCurrentUser();
         public Location GetLocation(int locationId);
 
         public List<Location> GetLocationsList();
 
-        public List<string> GetCategoryList(int customerId);
+        public List<string> GetCategoryList(int locationId);
 
         public List<Order> GetOrderList();
 
@@ -27,7 +27,7 @@ namespace BusinessLayer
 
         public List<OrderedProduct> GetOrderedProductList(int selectedOrderId);
 
-        public List<Order> GetCustomerOrderList(int locationId);
+        public List<Order> GetCustomerOrderList(int customerId);
 
         public List<Customer> GetCustomerList(string fName, string lName);
 
