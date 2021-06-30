@@ -52,11 +52,19 @@ namespace BusinessLayer
         /// Creates a new account with the provided Customer object
         /// </summary>
         /// <param name="newUser">new Customer object to be added</param>
-        public void CreateAccount(Customer newUser)
+        public bool CreateAccount(Customer newUser)
         {
-            context.Add(newUser);     // add the new object to the database
+            try
+            {
+                context.Add(newUser);     // add the new object to the database
+                context.SaveChanges();      // save and update changes
 
-            context.SaveChanges();      // save and update changes
+                return true;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
