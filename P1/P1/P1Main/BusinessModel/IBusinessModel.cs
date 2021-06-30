@@ -18,8 +18,12 @@ namespace BusinessLayer
         public Location GetLocation(int locationId);
         public List<Location> GetLocationsList();
 
+        public List<string> GetCategoryList(int locationId);
+
         public List<InventoryProduct> GetLocationProductList(int locationId);
 
+        public List<InventoryProduct> GetLocationProductList(int locationId, string GetLocationProductList);
+        
         public Dictionary<int, int> AddToCart(Dictionary<int, int> userCart, int productId, int numAdded);
 
         public Dictionary<Product, int> ConvertDict(Dictionary<int, int> userCart);

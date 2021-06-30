@@ -61,10 +61,28 @@ namespace P1Mvc.Controllers
             return View(_BusinessModel.GetLocationsList());
         }
 
-        public ActionResult BrowseProducts()                // add category filtering
+        public ActionResult BrowseProducts(string storeCategoryName = "any")                // add category filtering
         {
             Location userLocation = JsonConvert.DeserializeObject<Location>(HttpContext.Session.GetString("CurrentSessionLocation"));
-            return View(_BusinessModel.GetLocationProductList(userLocation.LocationId));
+
+            List<InventoryProduct> productList = new List<InventoryProduct>();
+
+            if(String.Equals(storeCategoryName, "any"))
+            {
+                productList = _BusinessModel.GetLocationProductList(userLocation.LocationId);
+            }
+            else
+            {
+                productList = _BusinessModel.GetLocationProductList(userLocation.LocationId, storeCategoryName);
+            }
+            
+
+
+            List<string> categoryList = _BusinessModel.GetCategoryList(userLocation.LocationId);
+
+            ViewBag.categoryList = categoryList;
+
+            return View(productList);
         }
 
 

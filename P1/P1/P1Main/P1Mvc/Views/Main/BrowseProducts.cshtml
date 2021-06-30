@@ -6,9 +6,23 @@
 
 <div class="text-lg-left">
 
+    <form asp-action="BrowseProducts">
+        <label for="stores">Categories: </label>
+        <select name="storeCategoryName" id="storeCategoryName">
+            <option value="any" selected>any</option>
+            @foreach (string catName in ViewBag.categoryList)
+            {
+                <option value="@catName">@catName</option>
+            }
+        </select>
+
+        <input type="submit" asp-controller="Main" asp-action="BrowseProducts" value="Search" />
+
+    </form>
+
+
     <table id="storeProducts">
         <tr>
-            <th>Id</th>
             <th>Product</th>
             <th>Price</th>
             <th>Quantity Available</th>
@@ -17,13 +31,12 @@
 
         @foreach (P1DbContext.Models.InventoryProduct obj in Model)
         {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => obj.ProductId)</td>
-        <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductString=@Newtonsoft.Json.JsonConvert.SerializeObject(obj)>@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
-        <td>@Html.DisplayFor(modelItem => obj.Price)</td>
-        <td>@Html.DisplayFor(modelItem => obj.NumberProducts)</td>
+            <tr>
+                <td><a class="mx-auto" asp-action="Details" asp-route-selectedProductString=@Newtonsoft.Json.JsonConvert.SerializeObject(obj)>@Html.DisplayFor(modelItem => obj.ProductName)</a></td>
+                <td>$@Html.DisplayFor(modelItem => obj.Price)</td>
+                <td>@Html.DisplayFor(modelItem => obj.NumberProducts)</td>
 
-    </tr>
+            </tr>
         }
 
     </table>

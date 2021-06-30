@@ -62,9 +62,35 @@ namespace BusinessLayer
             return locList;
         }
 
+        public List<string> GetCategoryList(int locationId)
+        {
+            var joinResults = context.Inventories.Join(
+                context.Products,
+                invent => invent.ProductId,
+                prod => prod.ProductId,
+                (invent, prod) => new
+                {
+                    ProductLocationId = invent.LocationId,
+                    ProductCategory = prod.Category
+                }
+
+            );
+
+            var categoryList = joinResults.Where(x => x.ProductLocationId == locationId).Distinct().ToList();
+
+            List<string> categoryStringList = new List<string>();
+
+            foreach(var obj in categoryList)
+            {
+                categoryStringList.Add(obj.ProductCategory);
+            }
+
+
+            return categoryStringList;
+        }
+
         public List<InventoryProduct> GetLocationProductList(int locationId)
         {
-            //var prodList = context.Products.ToList();
 
 
             var joinResults = context.Inventories.Join(
@@ -85,6 +111,29 @@ namespace BusinessLayer
 
             return productList;
         }
+
+        public List<InventoryProduct> GetLocationProductList(int locationId, string GetLocationProductList)
+        {
+
+            var joinResults = context.Inventories.Join(
+                context.Products,
+                invent => invent.ProductId,
+                prod => prod.ProductId,
+                (invent, prod) => new InventoryProduct(
+                    prod.ProductId,
+                    prod.ProductName,
+                    prod.Price,
+                    prod.Description,
+                    prod.Category,
+                    invent.LocationId,
+                    invent.NumberProducts)
+            ).AsEnumerable();
+
+            List<InventoryProduct> productList = joinResults.Where(x => x.LocationId == locationId && x.Category == GetLocationProductList).ToList();
+
+            return productList;
+        }
+
 
         public Dictionary<int, int> AddToCart(Dictionary<int, int> userCart, int productId, int numAdded)
         {
