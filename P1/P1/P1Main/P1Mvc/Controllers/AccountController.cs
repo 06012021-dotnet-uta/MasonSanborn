@@ -21,18 +21,11 @@ namespace P1Mvc.Controllers
             this._BusinessModel = BusinessModel;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult LoginPage()
         {
             return View();
         }
 
-
-        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LoginLandingPage(Customer loginUser)
@@ -40,22 +33,17 @@ namespace P1Mvc.Controllers
             bool loginStatus = _BusinessModel.Login(loginUser.UserName, loginUser.Password);
             if(loginStatus)
             {
-
                 var currentUser = _BusinessModel.GetCurrentUser();
                 ViewBag.currentUser = currentUser;
                 Dictionary<int, int> userCart = new Dictionary<int, int>();
-                // set the value into a session key
                 HttpContext.Session.SetString("CurrentSessionUser", JsonConvert.SerializeObject(currentUser));
                 HttpContext.Session.SetString("CurrentSessionUserCart", JsonConvert.SerializeObject(userCart));
 
-
                 return View(_BusinessModel.GetLocationsList());
-                
             }
             else
             {
-                return NotFound();
-                // handle this differntly?
+                return RedirectToAction("LoginFailPage", "Account");
             }
 
         }
@@ -67,30 +55,26 @@ namespace P1Mvc.Controllers
 
             Location currentLoc = _BusinessModel.GetLocation((int)storeLocationId);
 
-
             HttpContext.Session.SetString("CurrentSessionLocation", JsonConvert.SerializeObject(currentLoc));
 
             return RedirectToAction("HomePage", "Main");
         }
 
-
         public ActionResult CreateAccount()
         {
-
             return View();
         }
 
         public ActionResult CreateAccountLanding(Customer newUser)
         {
-
             _BusinessModel.CreateAccount(newUser);
-
-
 
             return RedirectToAction("LoginPage", "Account");
         }
 
-
-
+        public ActionResult LoginFailPage()
+        {
+            return View();
+        }
     }
 }
